@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enzo Gomes — portfolioHUB</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --accent: #00ff88;
+    --accent2: #0088ff;
+    --accent3: #ff0066;
+    --text: #e8e8f0;
+    --text-muted: #6b6b80;
+    --border: rgba(255,255,255,0.07);
+    --mono: 'Space Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+    --display: 'Syne', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 3rem;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  #home {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 6rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,136,255,0.12) 0%, transparent 70%);
+    top: -100px;
+    right: -100px;
+    pointer-events: none;
+  }
+
+  .hero-glow2 {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,255,136,0.08) 0%, transparent 70%);
+    bottom: 0;
+    left: 10%;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+  }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(2.2rem, 5.5vw, 4.8rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 .line-muted { color: var(--text-muted); }
+  h1 .line-accent { color: var(--accent); }
+
+  .hero-bio {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  .hero-bio strong { color: var(--text); font-weight: 500; }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.85rem 1.8rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+    font-weight: 700;
+  }
+
+  .btn-primary:hover {
+    background: #00cc6a;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,255,136,0.3);
+  }
+
+  .btn-ghost {
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--accent2);
+    color: var(--accent2);
+    transform: translateY(-2px);
+  }
+
+  .hero-stats {
+    position: absolute;
+    bottom: 3rem;
+    right: 3rem;
+    display: flex;
+    gap: 3rem;
+  }
+
+  .stat {
+    text-align: right;
+  }
+
+  .stat-num {
+    font-family: var(--display);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    display: block;
+  }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 6rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+  }
+
+  h2 {
+    font-family: var(--display);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--text-muted);
+    margin-bottom: 1.2rem;
+    font-weight: 300;
+    line-height: 1.8;
+  }
+
+  .about-text p strong { color: var(--text); font-weight: 500; }
+
+  .contact-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .contact-list li {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: border-color 0.2s;
+  }
+
+  .contact-list li:hover { border-color: rgba(0,255,136,0.3); }
+
+  .contact-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .contact-list a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+    word-break: break-all;
+  }
+
+  .contact-list a:hover { color: var(--accent); }
+
+  /* CURRICULUM */
+  #curriculo { background: var(--surface); border-radius: 24px; max-width: 100%; }
+
+  .curri-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 3rem;
+  }
+
+  .curri-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .curri-block h3 {
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .timeline-item {
+    padding: 1.2rem;
+    background: var(--surface2);
+    border-radius: 10px;
+    border-left: 3px solid var(--accent2);
+    margin-bottom: 1rem;
+  }
+
+  .timeline-item .role {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .timeline-item .org {
+    font-size: 0.85rem;
+    color: var(--accent2);
+    margin-bottom: 0.3rem;
+  }
+
+  .timeline-item .period {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+
+  .timeline-item .desc {
+    margin-top: 0.6rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  .skills-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .skill-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .skill-name {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--text);
+    min-width: 100px;
+    letter-spacing: 0.05em;
+  }
+
+  .skill-bar-bg {
+    flex: 1;
+    height: 4px;
+    background: var(--surface);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .skill-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    animation: fillBar 1.5s ease forwards;
+    transform-origin: left;
+  }
+
+  @keyframes fillBar {
+    from { width: 0; }
+  }
+
+  .skill-pct {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    min-width: 32px;
+    text-align: right;
+  }
+
+  .lang-chips {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .lang-chip {
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .lang-chip .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* PROJETOS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.8rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .project-card:hover { border-color: rgba(0,255,136,0.2); transform: translateY(-4px); }
+  .project-card:hover::before { transform: scaleX(1); }
+
+  .project-num {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-bottom: 1rem;
+  }
+
+  .project-title {
+    font-family: var(--display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .project-desc {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+  }
+
+  .project-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    padding: 0.25rem 0.6rem;
+    background: var(--surface2);
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--accent2);
+    letter-spacing: 0.05em;
+  }
+
+  /* HABILIDADES */
+  #habilidades { background: var(--surface); border-radius: 24px; max-width: 100%; }
+
+  .hab-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 3rem;
+  }
+
+  .competencias-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .competencia-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s;
+  }
+
+  .competencia-card:hover {
+    border-color: rgba(0,255,136,0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  }
+
+  .competencia-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .competencia-name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .competencia-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  /* RECOMENDAÇÕES */
+  .recs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .rec-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+  }
+
+  .rec-quote {
+    font-size: 4rem;
+    font-family: Georgia, serif;
+    color: var(--accent);
+    opacity: 0.3;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .rec-text {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .rec-author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .rec-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: var(--accent);
+    border: 1px solid var(--border);
+  }
+
+  .rec-name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .rec-role {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: var(--mono);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-left {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .footer-left strong { color: var(--accent); }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-links a {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--accent); }
+
+  /* REC FORM */
+  .rec-form-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+  }
+
+  .rec-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 600px) { .rec-form-grid { grid-template-columns: 1fr; } }
+
+  .rec-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .rec-input, .rec-textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+
+  .rec-input:focus, .rec-textarea:focus {
+    border-color: rgba(0,255,136,0.4);
+  }
+
+  .rec-input::placeholder, .rec-textarea::placeholder {
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  /* SCROLL ANIMATIONS */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section, .curri-wrap, .hab-wrap { padding: 4rem 1.5rem; }
+    #home { padding: 5rem 1.5rem 3rem; }
+    .about-grid, .curri-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-stats { position: static; margin-top: 3rem; justify-content: flex-start; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">EG.dev</a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#curriculo">Currículo</a></li>
+    <li><a href="#projetos">Projetos</a></li>
+    <li><a href="#habilidades">Habilidades</a></li>
+    <li><a href="#recomendacoes">Recomendações</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home" style="max-width:100%; padding-top: 6rem;">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content">
+    <div class="hero-tag">portfolioHUB — Ciência da Computação</div>
+    <h1>
+      <span class="line-muted">Olá, sou</span><br>
+      Enzo Gomes<br>
+      <span class="line-accent">de Oliveira.</span>
+    </h1>
+    <p class="hero-bio">
+      Estudante de <strong>Ciência da Computação</strong> no UniCEUB (Brasília, DF), com foco e ambição na área de <strong>Cibersegurança</strong>. Em início de jornada, determinado a construir uma carreira sólida no universo da segurança digital e das tecnologias emergentes.
+    </p>
+    <div class="hero-cta">
+      <a href="/cdn-cgi/l/email-protection#23404b5651514250404c15171163444e424a4f0d404c4e" class="btn btn-primary">✉ Entrar em Contato</a>
+      <a href="https://github.com/enzogomes-del" target="_blank" class="btn btn-ghost">⌥ GitHub</a>
+      <a href="https://www.linkedin.com/in/enzo-gomes-de-oliveira-2944713ab" target="_blank" class="btn btn-ghost">in LinkedIn</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">2026</span>
+      <span class="stat-label">Início do curso</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">3+</span>
+      <span class="stat-label">Tecnologias</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">2</span>
+      <span class="stat-label">Idiomas</span>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section id="sobre" style="max-width:1200px;">
+  <div class="section-header fade-in">
+    <span class="section-num">01 /</span>
+    <h2>Perfil Pessoal</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <p>Olá! Me chamo <strong>Enzo Gomes de Oliveira</strong>, tenho 18 anos e sou estudante de Ciência da Computação no <strong>Centro Universitário de Brasília (UniCEUB)</strong>, onde inicio minha formação em 2026.</p>
+      <p>Desde cedo, desenvolvi grande interesse pelo funcionamento dos sistemas computacionais e, especialmente, pelos mecanismos que os tornam seguros. Esse interesse me levou a direcionar meu foco para a <strong>Cibersegurança</strong> — área na qual pretendo construir minha carreira profissional.</p>
+      <p>Atualmente, dedico meu tempo ao aprendizado das bases da programação e dos conceitos fundamentais de segurança da informação, buscando sempre ampliar minha visão técnica e preparar-me para os desafios do mercado de tecnologia.</p>
+    </div>
+    <div class="fade-in">
+      <ul class="contact-list">
+        <li>
+          <div class="contact-icon">✉</div>
+          <a href="/cdn-cgi/l/email-protection#6a09021f18180b1909055c5e582a0d070b030644090507"><span class="__cf_email__" data-cfemail="cfaca7babdbdaebcaca0f9fbfd8fa8a2aea6a3e1aca0a2">[email&#160;protected]</span></a>
+        </li>
+        <li>
+          <div class="contact-icon">in</div>
+          <a href="https://www.linkedin.com/in/enzo-gomes-de-oliveira-2944713ab" target="_blank">linkedin.com/in/enzo-gomes-de-oliveira</a>
+        </li>
+        <li>
+          <div class="contact-icon">⌥</div>
+          <a href="https://github.com/enzogomes-del" target="_blank">github.com/enzogomes-del</a>
+        </li>
+        <li>
+          <div class="contact-icon">📍</div>
+          <span style="color:var(--text-muted); font-size:0.9rem;">Brasília, DF — Brasil</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CURRÍCULO -->
+<div id="curriculo" style="background:var(--surface); margin: 0 0 0 0;">
+<div class="curri-wrap">
+  <div class="section-header fade-in">
+    <span class="section-num">02 /</span>
+    <h2>Currículo</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="curri-grid">
+    <div class="fade-in">
+      <div class="curri-block">
+        <h3>Formação Acadêmica</h3>
+        <div class="timeline-item">
+          <div class="role">Bacharel em Ciência da Computação</div>
+          <div class="org">UniCEUB — Brasília, DF</div>
+          <div class="period">2026 — 2030 (em andamento)</div>
+          <div class="desc">Curso com ênfase em algoritmos, estruturas de dados, sistemas operacionais e segurança da informação. Foco pessoal em cibersegurança e redes de computadores.</div>
+        </div>
+      </div>
+
+      <div class="curri-block" style="margin-top:2rem;">
+        <h3>Experiência Profissional</h3>
+        <div class="timeline-item" style="border-left-color: var(--text-muted);">
+          <div class="role" style="color:var(--text-muted);">Em construção</div>
+          <div class="desc">Atualmente em início de formação acadêmica. Buscando ativamente oportunidades de estágio e projetos para desenvolver experiência prática na área de tecnologia e cibersegurança.</div>
+        </div>
+      </div>
+
+      <div class="curri-block" style="margin-top:2rem;">
+        <h3>Idiomas</h3>
+        <div class="lang-chips">
+          <div class="lang-chip"><span class="dot"></span>Português — Nativo</div>
+          <div class="lang-chip"><span class="dot" style="background:var(--accent2)"></span>Inglês — Intermediário</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fade-in">
+      <div class="curri-block">
+        <h3>Habilidades Técnicas</h3>
+        <div class="skills-grid">
+          <div class="skill-row">
+            <span class="skill-name">Python</span>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width:35%"></div>
+            </div>
+            <span class="skill-pct">35%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Java</span>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width:30%"></div>
+            </div>
+            <span class="skill-pct">30%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Git/GitHub</span>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width:40%"></div>
+            </div>
+            <span class="skill-pct">40%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Ciberseg.</span>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width:25%"></div>
+            </div>
+            <span class="skill-pct">25%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">HTML/CSS</span>
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" style="width:30%"></div>
+            </div>
+            <span class="skill-pct">30%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="curri-block" style="margin-top:2rem;">
+        <h3>Soft Skills</h3>
+        <div class="lang-chips">
+          <div class="lang-chip">Proatividade</div>
+          <div class="lang-chip">Aprendizado rápido</div>
+          <div class="lang-chip">Trabalho em equipe</div>
+          <div class="lang-chip">Resolução de problemas</div>
+          <div class="lang-chip">Curiosidade técnica</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- PROJETOS -->
+<section id="projetos" style="max-width:1200px;">
+  <div class="section-header fade-in">
+    <span class="section-num">03 /</span>
+    <h2>Projetos Acadêmicos</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card fade-in">
+      <div class="project-num">PROJ — 001</div>
+      <div class="project-title">Estudos em Cibersegurança</div>
+      <p class="project-desc">Repositório de anotações, exercícios e experimentos práticos sobre fundamentos de cibersegurança: conceitos de redes, vulnerabilidades comuns, criptografia básica e boas práticas de segurança digital.</p>
+      <div class="project-tags">
+        <span class="tag">Redes</span>
+        <span class="tag">Criptografia</span>
+        <span class="tag">Linux</span>
+        <span class="tag">Python</span>
+      </div>
+    </div>
+    <div class="project-card fade-in">
+      <div class="project-num">PROJ — 002</div>
+      <div class="project-title">Introdução a Algoritmos com Python</div>
+      <p class="project-desc">Primeiros passos com lógica de programação e algoritmos utilizando Python. Exercícios introdutórios desenvolvidos durante a graduação: variáveis, estruturas condicionais, laços de repetição e funções básicas.</p>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">Algoritmos</span>
+        <span class="tag">Lógica</span>
+        <span class="tag">UniCEUB</span>
+      </div>
+    </div>
+    <div class="project-card fade-in">
+      <div class="project-num">PROJ — 003</div>
+      <div class="project-title">Introdução a Algoritmos com Java</div>
+      <p class="project-desc">Primeiros passos com programação orientada a objetos utilizando Java. Exercícios introdutórios desenvolvidos durante a graduação: classes, objetos, métodos, herança e encapsulamento.</p>
+      <div class="project-tags">
+        <span class="tag">Java</span>
+        <span class="tag">Algoritmos</span>
+        <span class="tag">POO</span>
+        <span class="tag">UniCEUB</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HABILIDADES -->
+<div id="habilidades" style="background:var(--surface);">
+<div class="hab-wrap">
+  <div class="section-header fade-in">
+    <span class="section-num">04 /</span>
+    <h2>Habilidades & Competências</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="competencias-grid">
+    <div class="competencia-card fade-in">
+      <span class="competencia-icon">🔐</span>
+      <div class="competencia-name">Cibersegurança</div>
+      <div class="competencia-desc">Interesse e estudo ativo em segurança da informação, proteção de sistemas e fundamentos de ethical hacking.</div>
+    </div>
+    <div class="competencia-card fade-in">
+      <span class="competencia-icon">🐍</span>
+      <div class="competencia-name">Python</div>
+      <div class="competencia-desc">Aprendizado de lógica de programação, scripts de automação e algoritmos básicos com Python.</div>
+    </div>
+    <div class="competencia-card fade-in">
+      <span class="competencia-icon">☕</span>
+      <div class="competencia-name">Java</div>
+      <div class="competencia-desc">Fundamentos de programação orientada a objetos e estruturação de projetos com Java.</div>
+    </div>
+    <div class="competencia-card fade-in">
+      <span class="competencia-icon">💡</span>
+      <div class="competencia-name">Resolução de Problemas</div>
+      <div class="competencia-desc">Pensamento analítico, lógica computacional e abordagem sistemática para solução de desafios técnicos.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- RECOMENDAÇÕES -->
+<section id="recomendacoes" style="max-width:1200px;">
+  <div class="section-header fade-in">
+    <span class="section-num">05 /</span>
+    <h2>Recomendações</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:2.5rem; font-weight:300;">
+    Você me conhece ou trabalhou comigo em algum projeto acadêmico? Deixe sua recomendação abaixo!
+  </p>
+
+  <!-- FORM -->
+  <div class="rec-form-wrap fade-in">
+    <div class="rec-form-grid">
+      <div class="rec-form-field">
+        <label class="rec-label">Nome completo *</label>
+        <input type="text" id="rec-name-input" class="rec-input" placeholder="Ex: João Silva">
+      </div>
+      <div class="rec-form-field">
+        <label class="rec-label">Cargo / Função *</label>
+        <input type="text" id="rec-role-input" class="rec-input" placeholder="Ex: Professor — UniCEUB">
+      </div>
+    </div>
+    <div class="rec-form-field" style="margin-top:1rem;">
+      <label class="rec-label">Sua recomendação *</label>
+      <textarea id="rec-text-input" class="rec-textarea" placeholder="Escreva aqui sua recomendação sobre o Enzo..." rows="4"></textarea>
+    </div>
+    <div style="margin-top:1.2rem; display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+      <button onclick="submitRec()" class="btn btn-primary">✦ Enviar Recomendação</button>
+      <span id="rec-msg" style="font-family:var(--mono); font-size:0.75rem; color:var(--accent); display:none;">✓ Recomendação enviada!</span>
+    </div>
+  </div>
+
+  <!-- LISTA DE RECOMENDAÇÕES -->
+  <div id="recs-list" class="recs-grid" style="margin-top:3rem;"></div>
+  <p id="recs-empty" style="margin-top:1.5rem; font-family:var(--mono); font-size:0.8rem; color:var(--text-muted);">Nenhuma recomendação ainda. Seja o primeiro!</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <strong>portfolioHUB</strong> — Enzo Gomes de Oliveira © 2026
+  </div>
+  <div class="footer-links">
+    <a href="mailto:churrasco642@gmail.com">E-mail</a>
+    <a href="https://github.com/enzogomes-del" target="_blank">GitHub</a>
+    <a href="https://www.linkedin.com/in/enzo-gomes-de-oliveira-2944713ab" target="_blank">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Recommendations
+  let recommendations = JSON.parse(localStorage.getItem('enzo_recs') || '[]');
+
+  function renderRecs() {
+    const list = document.getElementById('recs-list');
+    const empty = document.getElementById('recs-empty');
+    list.innerHTML = '';
+    if (recommendations.length === 0) { empty.style.display = 'block'; return; }
+    empty.style.display = 'none';
+    recommendations.forEach(rec => {
+      const initials = rec.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+      const card = document.createElement('div');
+      card.className = 'rec-card fade-in visible';
+      card.innerHTML = `
+        <div class="rec-quote">"</div>
+        <p class="rec-text">${rec.text}</p>
+        <div class="rec-author">
+          <div class="rec-avatar">${initials}</div>
+          <div>
+            <div class="rec-name">${rec.name}</div>
+            <div class="rec-role">${rec.role}</div>
+          </div>
+        </div>`;
+      list.appendChild(card);
+    });
+  }
+
+  function submitRec() {
+    const name = document.getElementById('rec-name-input').value.trim();
+    const role = document.getElementById('rec-role-input').value.trim();
+    const text = document.getElementById('rec-text-input').value.trim();
+    if (!name || !role || !text) { alert('Por favor, preencha todos os campos!'); return; }
+    recommendations.push({ name, role, text });
+    localStorage.setItem('enzo_recs', JSON.stringify(recommendations));
+    document.getElementById('rec-name-input').value = '';
+    document.getElementById('rec-role-input').value = '';
+    document.getElementById('rec-text-input').value = '';
+    const msg = document.getElementById('rec-msg');
+    msg.style.display = 'inline';
+    setTimeout(() => msg.style.display = 'none', 3000);
+    renderRecs();
+  }
+
+  renderRecs();
+</script>
